@@ -1,0 +1,249 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="ja">
+  <head>
+    <title>C#プログラミング講習会 - 2</title>
+    <link rel="stylesheet" href="../common.css" type="text/css" />  
+    <!--[if IE]><script src="http://html5shim.googlecode.com/svn/trunk/html5.js"></script><![endif]-->
+    <script src="../jquery-1.7.2.min.js"></script>
+    <script src="../common.js"></script>
+  </head>
+  <body>
+    <nav><a href="../../index.htm">UTMC 12GW</a> &#187; <a href="../index.htm">C#プログラミング講習会</a> &#187; 2. コンピュータに様々な計算をさせる (<a href="01.htm">&lt; PREV</a> <a href="03.htm">NEXT &gt;</a>)</nav>
+    <h1>C#プログラミング講習会</h1>
+    <h2>2. コンピュータに様々な計算をさせる</h2>
+    <h3>演算子とは</h3>
+    <p>
+      コンピュータ＝電子計算機ですからやはり計算をさせなければ。
+    </p>
+    <p>
+      System.Console.WriteLineは大変優秀なので文字列だけでなく計算結果の数値も表示してくれます。以下のコードを打ち込んで実行してみましょう。
+    </p>
+    <p>
+       加減乗除（＋, －, ×, ÷）はそれぞれ<strong><code> + - * / </code></strong>という記号で表されます。
+       また、<strong><code> % </code></strong>は剰余を求める記号です。こういった記号をプログラミングにおいては<strong>演算子</strong>と呼びます。
+       演算子には多くの種類があります<span class="fs_80">（演算子は数学的なものだけとは限りません。実は、<code>System.Console.WriteLine</code>の . もドット演算子という演算子だったりします）</span>。
+    </p>
+    <p>
+       演算子には「<code>1 + 2 * 3 - 4</code> では <code>2 * 3</code> を一番先に計算せよ」というような結合の優先順位があります。
+       この場合、「<code>*</code> は <code>+, -</code> より優先順位が高い」と言います。
+       演算の順番は小括弧を使って変えることができます（中括弧や大括弧ではダメ）。
+    </p>
+    <pre class="code"><code>
+class Program
+{
+  static void Main()
+  {
+    System.Console.WriteLine(<strong>1 + 2 * 3 - 4</strong>);
+    System.Console.WriteLine(<strong>(1 + 2) * (3 - 4)</strong>);
+    System.Console.WriteLine(<strong>4 / 2</strong>);
+    System.Console.WriteLine(<strong>5 % 3</strong>);
+  }
+}
+    </code></pre>
+    <p>
+      実行結果と式を見比べてみましょう。結果に納得できましたか？
+    </p>
+    <h3>割り切れない結果</h3>
+    <p>
+      次に、以下のコードを実行してみましょう。
+    </p>
+    <pre class="code"><code>
+class Program
+{
+  static void Main()
+  {
+    System.Console.WriteLine(<strong>5 / 2</strong>);
+    System.Console.WriteLine(<strong>5.0 / 2</strong>);
+    System.Console.WriteLine(<strong>5 / 2.0</strong>);
+    System.Console.WriteLine(<strong>5.0 / 2.0</strong>);
+  }
+}
+    </code></pre>
+    <p>
+      結果はどうなりましたか？
+    </p>
+    <p>
+      C#では整数と実数<span class="fs_80">（浮動小数点数）</span>が明確に区別されます。<strong>小数点を書くとその数は実数として扱われます</strong>
+      <span class="fs_80">（他にも実数として扱わせる方法はいくつかあります）</span>。
+      <strong>整数同士を除算すると結果は整数</strong>になります。<strong>実数が絡む除算をすると結果は実数</strong>になります。
+    </p>
+    <h3>変数を使う（整数編）</h3>
+    <p>
+      まずは、以下のコードを打ち込んで実行してみましょう。
+    </p>
+    <pre class="code"><code>
+class Program
+{
+  static void Main()
+  {
+    <strong>int x;</strong>
+    <strong>x = 3;</strong>
+    System.Console.WriteLine(<strong>x</strong>);
+  }
+}
+    </code></pre>
+    <p>
+      <code>int x;</code>に目を瞑れば、やっていることが分かるのではないかと思います。つまり、<var>x</var> が3だから、画面に変数の中身である3が表示されているのです。
+      <strong>= </strong>は<strong>代入演算子</strong>という名前で、<strong>左辺の変数に右辺の値を代入する</strong>という意味です。
+    </p>
+    <p>
+      例えば、以下の結果はどうなるでしょうか。
+    </p>
+    <pre class="code"><code>
+class Program
+{
+  static void Main()
+  {
+    int x;
+    x = 3;
+    <strong>x = x + 2;</strong>
+    System.Console.WriteLine(x);
+  }
+}
+    </code></pre>
+    <p>
+      注意してほしいのは、<code>=</code> は単に左辺の変数に右辺の値を代入するだけの演算子であるということ。
+      演算子には結合の優先順位がありましたが、= の優先順位は + より低いので <code>x + 2</code> がまず実行されます。
+      この時点での <var>x</var> の値は3なので、<var>x</var> には3 + 2の結果である5が代入されます。
+    </p>
+    <p>
+      さて、問題の<code>int x;</code>ですが、これは変数を使う時に必要な<strong>宣言</strong>です。
+      intはinteger（整数）の略であり、<strong>整数型変数</strong>の宣言を表しています。
+      <code>int x;</code>は<strong>「整数型変数 <code>x</code> をこれから使います」</strong>という宣言です。
+      変数名は以下の条件を満たせば自分の好きなものを付けられます。
+    </p>
+    <ul>
+      <li><strong>半角英数字 (a-z, A-Z, 0-9)</strong> または<strong>アンダーバー (_)</strong> で構成されている</li>
+      <li>先頭の文字が数字ではない</li>
+      <li>予約語（class, static, void, intなど、予め意味が決められている単語）ではない</li>
+    </ul>
+    <p>
+      本当は日本語変数名も付けられるはずですが逆に面倒になるのでやめておきましょう
+      <span class="fs_80">（IntelliSenseが働かなくなる、そもそも入力切替が面倒などの理由で）</span>。
+    </p>
+    <p>
+      同じ名前の変数の宣言は1度しかできません。2度宣言しようとするとVisual Studioに怒られます。変数への代入は何度でもできます。
+    </p>
+    <p><img src="img/redeclaration.png" /></p>
+    <p>
+      <code>int</code>は整数型と決まっているので、実数や文字列を入れようとするとこれまたVisual Studioに怒られます。</p>
+    <p><img src="img/type_error.png" /></p>
+    <p>
+      <code>int x; x = 3;</code> をまとめて <strong><code>int x = 3;</code></strong> と書くことができます。
+      以降この書き方を使っていきます。
+    </p>
+    <h3>変数を使う（実数編）</h3>
+    <p>
+      整数型変数があるということは、実数<span class="fs_80">（浮動小数点数）</span>型変数もあるはずです。
+      実数型変数の宣言には<strong>double</strong>というキーワードを使います
+      （何故doubleかというと、正式名称が「<strong>倍</strong>精度浮動小数点数型変数」だからです）。
+    </p>
+    <pre class="code"><code>
+class Program
+{
+  static void Main()
+  {
+    <strong>double</strong> r = 3.0;
+    <strong>double</strong> pi = 3.14159265;
+    <strong>System.Console.Write</strong>("円周長：");
+    System.Console.WriteLine(2 * pi * r);
+    <strong>System.Console.Write</strong>("面積：");
+    System.Console.WriteLine(pi * r * r);
+  }
+}
+    </code></pre>
+    <p><strong><code>System.Console.Write</code></strong>は文字列を表示した後の改行を行いません（WriteLineと比較してみましょう）。</p>
+    <!--
+    <p>また、3×10<sup>8</sup>や6.02×10<sup>-23</sup>のような数値を表すときも実数として扱うのが便利で、それぞれ3e8、6.02e-23と表記できます（大文字で3E8、6.02E-23でも可）。以下が使用例です。</p>
+    <pre class="code"><code>
+class Program
+{
+  static void Main()
+  {
+    double diameterOfEarth = 1.28e7;
+    double pi = 3.14159265;
+    double speedOfLight = 3.00e8;
+    
+    System.Console.WriteLine(speedOfLight / (diameterOfEarth * pi));
+  }
+}
+    </code></pre>
+    -->
+    <h3>変数を使う（文字列編）</h3>
+    <p>
+      数値だけでなく文字列も変数に格納することができます。文字列型変数の宣言には<strong>string</strong>というキーワードを用います。
+    </p>
+    <pre class="code"><code>
+class Program
+{
+  static void Main()
+  {
+    <strong>string</strong> s = "world";
+    System.Console.WriteLine(<strong>"Hello, " + s + "!"</strong>);
+  }
+}
+    </code></pre>
+    <p>
+      ここでの<strong> + </strong>は<strong>文字列の連結</strong>を表しています。
+    </p>
+    <p>
+      文字列と数値を連結しようとすると数値は文字列に自動変換され結果は文字列になります。
+      以下のコードの実行結果を確かめてみてください。
+    </p>
+    <pre class="code"><code>
+class Program
+{
+  static void Main()
+  {
+    System.Console.WriteLine("Hello, " + 1 + 1 + "!");
+    System.Console.WriteLine("Hello, " + (1 + 1) + "!");
+  }
+}
+    </code></pre>
+    <!--
+    <p>
+      一々文字列を連結したり括弧を付けたりするのは面倒なのでもっと便利な機能（フォーマット出力）が用意されています（次回学習します）。
+    </p>
+    -->
+    <h3>演習：自己紹介プログラム・改</h3>
+    <p>
+      整数型変数 <var>year</var> に入学年度、文字列型変数 <var>name</var> に自分の名前を入れ、
+      その2つの変数を使って「○○年入学の○○です。」と表示しましょう。
+      また <code>year + 4</code> （新入生の場合）を使って「○○年に卒業予定です。」とも表示しましょう。
+    </p>
+    <h3><a href="javascript:showKobore();">こぼれ話</a></h3>
+    <div class="kobore">
+    <p>int 型やdouble 型は表せる数値の範囲が決まっています。
+    C#にはintやdoubleの他にも異なる値の範囲をもつ多数の型が用意されており、必要に応じてそれを使うことができます。</p>
+    <table>
+      <tr><th></th><th>名称</th><th>サイズ</th><th>最小値</th><th>最大値</th><th>絶対値での最小値</th></tr>
+      <tr><th rowspan="3">整数型</th><th>byte</th><td>1 バイト</td><td>0</td><td>255</td><td></td></tr>
+      <tr><th>int</th><td>4 バイト</td><td>-2147483648</td><td>2147483647</td><td></td></tr>
+      <tr><th>long</th><td>8 バイト</td><td>-9223372036854775808</td><td>9223372036854775807</td><td></td></tr>
+      <tr><th rowspan="3">浮動小数点型</th><th>float</th><td>4 バイト</td><td>約-3.40×10<sup>38</sup></td><td>約3.40×10<sup>38</sup></td><td>約1.40×10<sup>-45</sup></td></tr>
+      <tr><th>double</th><td>8 バイト</td><td>約-1.80×10<sup>308</sup></td><td>約1.80×10<sup>308</sup></td><td>約4.94×10<sup>-324</sup></td></tr>
+    </table>
+    <p>整数値を使う時には、<code>0x</code> で始まる16進数表記を用いることができます。</p>
+    <p>float 型の変数に代入するときは、数値の後ろに <code>f</code> を付けなければいけません。</p>
+    <p>浮動小数点数型を使うときには、<code>3e8</code> (＝3×10<sup>8</sup>), <code>1.6e-19</code> (＝1.6×10<sup>-19</sup>) のような科学表記を使うことができます。</p>
+    <pre class="code"><code>
+class Program
+{
+  static void Main()
+  {
+    byte b = 0xff;
+    float f = 0.9f;
+    double d = 3e8;
+
+    System.Console.WriteLine(b);
+    System.Console.WriteLine(f);
+    System.Console.WriteLine(d);
+  }
+}
+    </code></pre>
+    <p>詳しくは<a href="http://ufcpp.net/study/csharp/st_embeddedtype.html">組込み型 (C# によるプログラミング入門)</a>を参照してください。</p>
+    </div>
+    <nav><a href="../../index.htm">UTMC 12GW</a> &#187; <a href="../index.htm">C#プログラミング講習会</a> &#187; 2. コンピュータに様々な計算をさせる (<a href="01.htm">&lt; PREV</a> <a href="03.htm">NEXT &gt;</a>)</nav>
+  </body>
+</html>

@@ -1,0 +1,48 @@
+<?xml version='1.0' encoding='UTF-8'?><!DOCTYPE html><html xmlns='http://www.w3.org/1999/xhtml'><head><title>8. メソッドを定義する - C#プログラミング講習会</title><link href='../common/common.css' rel='stylesheet' type='text/css'/><script src='../common/jquery-1.7.2.min.js' type='text/javascript'></script><script src='../common/common.js' type='text/javascript'></script></head><body><nav><a href='../index.htm'>C#プログラミング講習会</a> » (<a href='../7/index.htm'>&lt; prev</a> <a href='../9/index.htm'>next &gt;</a>) 8. メソッドを定義する</nav><h1 id='cプログラミング講習会'>C#プログラミング講習会</h1><h2 id='メソッドを定義する'>8. メソッドを定義する</h2><h3 id='メソッドを定義して呼び出す'>メソッドを定義して呼び出す</h3><p><strong>メソッド</strong><span class='fs_80'>（C言語やC++等では関数と呼ばれる）</span>というものを定義することにより、処理をまとまった単位に分割することができます。以下のように書くことでメソッドを定義でき、Mainから呼び出すことができるようになります（実はMainもメソッドの一つです。プログラムは必ずMain メソッドから開始します）。</p><pre class='code'><code>using System;
+class Program
+{
+  <strong>static void RepeatHello()</strong>
+  {
+    for (int i = 0; i &lt; 5; i++)
+    {
+      Console.WriteLine("Hello!");
+    }
+  }
+
+  static void Main()
+  {
+    <strong>RepeatHello();</strong>
+  }
+}
+</code></pre><h3 id='引数のあるメソッドを定義して呼び出す'>引数のあるメソッドを定義して呼び出す</h3><p>メソッドには小括弧を使って情報を渡すことができます。これを<strong>引数（ひきすう）</strong>と呼びます。</p><pre class='code'><code>using System;
+class Program
+{
+  static void RepeatHello(<strong>string s, int n</strong>)
+  {
+    for (int i = 0; i &lt; n; i++)
+    {
+      Console.WriteLine("Hello, {0}!", s);
+    }
+  }
+
+  static void Main()
+  {
+    RepeatHello(<strong>"world", 5</strong>);
+  }
+}
+</code></pre><p>上の場合、RepeatHello メソッドの第1引数として表示する文字列、第2引数として繰り返す回数を指定します。</p><h3 id='戻り値のあるメソッドを定義して呼び出す'>戻り値のあるメソッドを定義して呼び出す</h3><p><strong>return</strong>を使うことでメソッドの実行結果を指定できます。 これを<strong>戻り値</strong>（返り値）と呼びます。 メソッド名の前で戻り値の型を指定する必要があります。</p><p>以下は引数として与えられた整数<var>n</var>の2乗の値を返すメソッドです。</p><pre class='code'><code>using System;
+class Program
+{
+  static <strong>int</strong> Pow2(int n)
+  {
+    <strong>return</strong> n * n;
+  }
+
+  static void Main()
+  {
+    Console.WriteLine(<strong>Pow2(2)</strong>);
+    Console.WriteLine(<strong>Pow2(3)</strong> + <strong>Pow2(4)</strong>);
+    Console.WriteLine(<strong>Pow2(Pow2(2))</strong>);
+  }
+}
+</code></pre><p><strong>void</strong>は戻り値がないメソッドを示すキーワードです。戻り値がない場合でも<code>return;</code>と書くことでメソッド内の処理から抜けることができます。</p><h3 id='演習累乗プログラム'>演習：累乗プログラム</h3><p>整数<code>a</code>, 自然数<code>n</code>を引数に取り、<code>a</code>の<code>n</code>乗を求めるメソッド<code>pow</code>を定義し、Main メソッドからそれを利用するプログラムを作りましょう。</p><nav><a href='../index.htm'>C#プログラミング講習会</a> » (<a href='../7/index.htm'>&lt; prev</a> <a href='../9/index.htm'>next &gt;</a>) 8. メソッドを定義する</nav></body></html>

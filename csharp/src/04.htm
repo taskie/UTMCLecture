@@ -1,0 +1,156 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="ja">
+  <head>
+    <title>C#プログラミング講習会 - 4</title>
+    <link rel="stylesheet" href="../common.css" type="text/css" />  
+    <!--[if IE]><script src="http://html5shim.googlecode.com/svn/trunk/html5.js"></script><![endif]-->
+    <script src="../jquery-1.7.2.min.js"></script>
+    <script src="../common.js"></script>
+  </head>
+  <body>
+    <nav><a href="../../index.htm">UTMC 12GW</a> &#187; <a href="../index.htm">C#プログラミング講習会</a> &#187; 4. 処理を分岐させる (<a href="03.htm">&lt; PREV</a> <a href="05.htm">NEXT &gt;</a>)</nav>
+    <h1>C#プログラミング講習会</h1>
+    <h2>4. 処理を分岐させる</h2>
+    <h3>もし〜ならば処理を実行する</h3>
+    <p>ここからはプログラムの<strong>制御構造</strong>を学びます。制御構造を使うことでより複雑な動きをするプログラムが書けるようになります。</p>
+    <p>まずは<strong>if 文</strong>です。</p>
+    <pre class="code"><code>
+using System;
+class Program
+{
+  static void Main()
+  {
+    int x = int.Parse(Console.ReadLine());
+    <strong>if (x &gt; 0)</strong>
+    <strong>{</strong>
+      Console.WriteLine("正の数です");
+    <strong>}</strong>
+  }
+}
+    </code></pre>
+    <p>if 文は、括弧の中の条件式が満たされる場合に、中括弧の中の処理が実行されます。上の場合、<var>x</var> が0より大きければ「正の数です」と表示します。</p>
+    <h3>比較演算子</h3>
+    <p>&gt;（大なり不等号）のような記号を比較演算子と呼びます。代表的な比較演算子を挙げます。</p>
+    <table>
+        <tr><th>比較演算子</th><th>意味</th></tr>
+        <tr><th><code>==</code></th><td>左辺と右辺が等しいなら真</td></tr>
+        <tr><th><code>!=</code></th><td>左辺と右辺が異なるなら真</td></tr>
+        <tr><th><code>&gt;</code></th><td>左辺が右辺より大きいなら真</td></tr>
+        <tr><th><code>&gt;=</code></th><td>左辺が右辺より大きいか等しいなら真</td></tr>
+        <tr><th><code>&lt;</code></th><td>左辺が右辺より小さいなら真</td></tr>
+        <tr><th><code>&lt;=</code></th><td>左辺が右辺より小さいか等しいなら真</td></tr>
+    </table>
+    <p><code>==</code> は <code>=</code> ではないことに注意してください（<code>=</code> は代入演算子です）。</p>
+    <p>このような比較演算子を用いた条件式の評価が真になる時、if 文の中括弧の中身が実行されます。</p>
+    <h3>もし〜ならばこの処理、そうでなければあの処理</h3>
+    <p><strong>else</strong>を使うことで、条件が満たされなかった場合の処理を書くことができます。</p>
+    <pre class="code"><code>
+using System;
+class Program
+{
+  static void Main()
+  {
+    int x = int.Parse(Console.ReadLine());
+    <strong>if (x > 0)</strong>
+    <strong>{</strong>
+      Console.WriteLine("正の数です");
+    <strong>}</strong>
+    <strong>else</strong>
+    <strong>{</strong>
+      Console.WriteLine("0または負の数です");
+    <strong>}</strong>
+  }
+}
+    </code></pre>
+    <p><strong><code>x > 0</code>が真</strong>ならば、直後の部分が実行されます（elseの部分は実行されません）。
+    <strong><code>x > 0</code>が偽</strong>ならば、elseの部分だけが実行されます。</p>
+    
+    <h3>もし〜ならばこの処理、そうでなくて〜ならばその処理、そうでもなければあの処理</h3>
+    <p><strong>else if</strong>を使えば、より複雑な分岐ができるようになります。</p>
+    <pre class="code"><code>
+using System;
+class Program
+{
+  static void Main()
+  {
+    int x = int.Parse(Console.ReadLine());
+    <strong>if (x > 0)</strong>
+    <strong>{</strong>
+      Console.WriteLine("正の数です");
+    <strong>}</strong>
+    <strong>else if (x == 0)</strong>
+    <strong>{</strong>
+      Console.WriteLine("0です");
+    <strong>}</strong>
+    <strong>else if (x == -1)</strong>
+    <strong>{</strong>
+      Console.WriteLine("-1です");
+    <strong>}</strong>
+    <strong>else</strong>
+    <strong>{</strong>
+      Console.WriteLine("-1以外の負の数です");
+    <strong>}</strong>
+  }
+}
+    </code></pre>
+    <p>else ifはいくつでも並べることができますが、elseは最大で1つしか書くことができません。</p>
+    <p>if, else if の条件式の判定は前から順に行われ、真になったら直後の中括弧に入ってその処理だけを行います。</p>
+    <!-- <pre class="code"><code>
+using System;
+class Program
+{
+  static void Main()
+  {
+    int x = int.Parse(Console.ReadLine());
+    <strong>if (x % 2 == 0)</strong>
+    <strong>{</strong>
+      Console.WriteLine("2の倍数です");
+    <strong>}</strong>
+    <strong>else if (x % 4 == 0)</strong>
+    <strong>{</strong>
+      Console.WriteLine("4の倍数です");
+    <strong>}</strong>
+    <strong>else</strong>
+    <strong>{</strong>
+      Console.WriteLine("奇数です");
+    <strong>}</strong>
+  }
+}
+    </code></pre>
+    <p>上の場合、4を入力すると最初の条件式に引っかかるので「2の倍数です」と表示され、「4の倍数です」とは表示されません。</p>
+    <p>上のコードは以下のコードと同等です（分かりますか？）が、else ifを使うと入れ子が解消されて見通しが良くなります。</p>
+    <pre class="code"><code>
+using System;
+class Program
+{
+  static void Main()
+  {
+    int x = int.Parse(Console.ReadLine());
+    if (x > 0) {
+      Console.WriteLine("正の数です");
+    } else {
+      if (x == 0) {
+        Console.WriteLine("0です");
+      } else {
+        Console.WriteLine("負の数です");
+      }
+    }
+  }
+}
+    </code></pre>
+    -->
+    <h3>演習：うるう年判定プログラム</h3>
+    <p>入力された年がグレゴリオ暦でうるう年かどうかを判定するプログラムを作ってみましょう。</p>
+    <p>西暦年がうるう年である条件は以下のとおり（Wikipediaより引用）。</p>
+    <blockquote>
+      <ol>
+        <li>西暦年が4で割り切れる年は閏年</li>
+        <li>ただし、西暦年が100で割り切れる年は平年</li>
+        <li>ただし、西暦年が400で割り切れる年は閏年</li>
+      </ol>
+    </blockquote>
+    <p>例えば、<kbd>2012</kbd>, <kbd>2000</kbd>と入力すると「うるう年です」、<kbd>2013</kbd>, <kbd>2100</kbd>と入力すると「うるう年ではありません」と表示するようなプログラムを作りましょう。</p>
+    <nav><a href="../../index.htm">UTMC 12GW</a> &#187; <a href="../index.htm">C#プログラミング講習会</a> &#187; 4. 処理を分岐させる (<a href="03.htm">&lt; PREV</a> <a href="05.htm">NEXT &gt;</a>)</nav>
+  </body>
+</html>

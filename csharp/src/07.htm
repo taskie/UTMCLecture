@@ -1,0 +1,245 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="ja">
+  <head>
+    <title>C#プログラミング講習会 - 7</title>
+    <link rel="stylesheet" href="../common.css" type="text/css" />  
+    <!--[if IE]><script src="http://html5shim.googlecode.com/svn/trunk/html5.js"></script><![endif]-->
+    <script src="../jquery-1.7.2.min.js"></script>
+    <script src="../common.js"></script>
+  </head>
+  <body>
+    <nav><a href="../../index.htm">UTMC 12GW</a> &#187; <a href="../index.htm">C#プログラミング講習会</a> &#187; 7. 続・処理を繰り返させる (<a href="06.htm">&lt; PREV</a> <a href="08.htm">NEXT &gt;</a>)</nav>
+    <h1>C#プログラミング講習会</h1>
+    <h2>7. 続・処理を繰り返させる</h2>
+    <h3>インクリメント演算子・デクリメント演算子</h3>
+    <p><code>n += 1</code>・<code>n -= 1</code>という処理は頻繁に出てくるので短く書く方法が用意されています。</p>
+    <pre class="code"><code>
+using System;
+class Program
+{
+  static void Main()
+  {
+    int x = 0;
+    <strong>x++;</strong>  // x += 1
+    Console.WriteLine(x);
+    <strong>x--;</strong>  // x -= 1
+    Console.WriteLine(x);
+    <strong>++x;</strong>  // x += 1
+    Console.WriteLine(x);
+    <strong>--x;</strong>  // x -= 1
+    Console.WriteLine(x);
+  }
+}
+    </code></pre>
+    <p><code>x++</code> （後置インクリメント）と <code>++x</code> （前置インクリメント）の違いは <code>x++</code>, <code>++x</code> という式自体の値を参照する時に現れます。</p>
+    <pre class="code"><code>
+using System;
+class Program
+{
+  static void Main()
+  {
+    int x;
+    x = 0;
+    Console.WriteLine(<strong>x++</strong>);
+    Console.WriteLine(x);
+    x = 0;
+    Console.WriteLine(<strong>++x</strong>);
+    Console.WriteLine(x);
+  }
+}
+    </code></pre>
+    <p><code>x++</code> の値は+1する前の<code>x</code>の値、<code>++x</code> は+1した後の<code>x</code>の値です
+    （x--, --x も同様）。ただこういうことをする機会はそんなに無いのであまり気にしなくていいかも。</p>
+    
+    <h3>for 文</h3>
+    <p>n回何らかの処理を繰り返したい、という時はwhile文を使って以下のように書けます（<var>i</var> は0からn-1までのn通りの値をとる）。</p>
+    <pre class="code"><code>
+using System;
+class Program
+{
+  static void Main()
+  {
+    int n = int.Parse(Console.ReadLine());
+    <strong>int i = 0;</strong>
+    <strong>while (i &lt; n)</strong>
+    {
+      Console.WriteLine(i);
+      <strong>i++;</strong>
+    }
+  }
+}
+    </code></pre>
+    <p>こういう形はよく出てくるので上の太字部分をまとめた構文が存在します。</p>
+    <pre class="code"><code>
+using System;
+class Program
+{
+  static void Main()
+  {
+    int n = int.Parse(Console.ReadLine());
+    <strong>for (int i = 0; i &lt; n; i++)</strong>
+    {
+      Console.WriteLine(i);
+    }
+  }
+}
+    </code></pre>
+    <p><code>for (<var>初期化式</var> ; <var>条件式</var> ; <var>増分</var>)</code>という順番です。</p>
+    <p>例えば、<var>i</var> が <var>n</var> から0まで2ずつ減っていく処理なら以下のように書けます。</p>
+    <pre class="code"><code>
+using System;
+class Program
+{
+  static void Main()
+  {
+    int n = int.Parse(Console.ReadLine());
+    <strong>for (int i = n; i &gt;= 0; i -= 2)</strong>
+    {
+      Console.WriteLine(i);
+    }
+  }
+}
+    </code></pre>
+    <h3>break 文</h3>
+    <p>while, for文を抜ける方法として、<strong>break</strong>というものが用意されています。</p>
+    <pre class="code"><code>
+using System;
+class Program
+{
+  static void Main()
+  {
+    int n = int.Parse(Console.ReadLine());
+    for (int i = 0; i &lt; n; i++)
+    {
+      <strong>if (i == 5) break;</strong>
+      Console.WriteLine(i);
+    }
+  }
+}
+    </code></pre>
+    <p>上の例の場合、<var>i</var> が5になったら強制的にループを抜けます（ちなみに、if, while, for 文の後の中括弧の中に1文しか無い場合は中括弧を省略できます。が、紛らわしいので簡単な処理にだけ使うようにしましょう）。</p>
+    <h3>continue 文</h3>
+    <p>特定の条件でループを飛ばしたい場合は<strong>continue</strong>を使います。</p>
+    <pre class="code"><code>
+using System;
+class Program
+{
+  static void Main()
+  {
+    int n = int.Parse(Console.ReadLine());
+    for (int i = 0; i &lt; n; i++)
+    {
+      <strong>if (i % 2 == 0) continue;</strong>
+      Console.WriteLine(i);
+    }
+  }
+}
+    </code></pre>
+    <p>上の例の場合、<var>i</var> が偶数なら表示の処理を行わずループの最初に戻ります。for 文の場合<strong>増分の処理（ここでは<code>i++</code>）はcontinueした直後に実行されます</strong>。</p>
+    
+    <h3>無限ループ</h3>
+    <p><strong><code>for ( ; ; )</code></strong> と書くことで無限ループを作ることができます。
+    その名の通り永久に終わらないのでbreak 文でループを中断する必要があります。</p>
+    <pre class="code"><code>
+using System;
+class Program
+{
+  static void Main()
+  {
+    int n = 0;
+    Console.WriteLine("入力された整数を合計します（0を入力すると終了します）")
+    <strong>for ( ; ; ) {</strong>
+      int x = int.Parse(Console.ReadLine());
+      if ( x == 0 ) break;
+      n += x;
+    <strong>}</strong>
+    Console.WriteLine("合計：{0}", n);
+  }
+}
+    </code></pre>
+    <p><code>while (true) { ... }</code>でも同じことができます。</p>
+    <h3>演習：Fizz Buzz表示プログラム</h3>
+    <p>for 文を使ってFizz Buzz (<a href="http://ja.wikipedia.org/wiki/Fizz_Buzz">Wikipedia</a>) を行うプログラム作りましょう。</p>
+    <p>Fizz Buzzのルールは以下のとおり。</p>
+    <ul>
+      <li>最初のプレイヤーは <strong>1</strong> と数字を発言する。</li>
+      <li>次のプレイヤーは直前のプレイヤーの次の数字を発言していく。</li>
+      <li>ただし、
+      <ul>
+        <li>3で割り切れる場合は <strong>Fizz</strong></li>
+        <li>5で割り切れる場合は <strong>Buzz</strong></li>
+        <li>両者で割り切れる場合は <strong>FizzBuzz</strong></li>
+      </ul>
+      を数の代わりに発言しなければならない。</li>
+    </ul>
+    <p>入力された数までFizz Buzzを行うプログラムを書いてみましょう。例えば、<kbd>16</kbd>と入力すると、</p>
+    <pre class="sample"><samp>
+1
+2
+Fizz
+4
+Buzz
+Fizz
+7
+8
+Fizz
+Buzz
+11
+Fizz
+13
+14
+FizzBuzz
+16
+    </samp></pre>
+    <p>と表示するようなプログラムを書きましょう。</p>
+    <p>ちなみに、Fizz Buzzはプログラマの中では非常に有名な問題です。以下Wikipediaより引用。</p>
+    <blockquote>
+      このゲームをコンピュータ画面に表示させるプログラムとして作成させることで、<strong>コードがかけないプログラマ志願者を見分ける手法</strong>を Jeff Atwood が FizzBuzz問題 (FizzBuzz Question)として提唱した。その提唱はインターネットの様々な場所で議論の対象になっている。
+    </blockquote>
+    <p>逆に言うと、Fizz Buzzさえ書ければコードが書ける人として見なされるかも……？　頑張って書いてみましょう。</p>
+
+    <h3><a href="javascript:showKobore();">こぼれ話</a></h3>
+    <div class="kobore">
+    <p>「for 文」で出てきた2つのコード（while 文バージョン／for 文バージョン）の大きな違いは、ループ回数をカウントしている <var>i</var> をループの後で参照できるかどうかという点です。</p>
+    <p>while 文バージョンでは変数 <var>i</var> の値を後で参照することができますが、for 文で同じことをしようとするとVisual Studioに怒られます。</p>
+    <pre class="code"><code>
+using System;
+class Program
+{
+  static void Main()
+  {
+    int n = int.Parse(Console.ReadLine());
+    int i = 0; // ループの外で変数を宣言している
+    while (i &lt; n)
+    {
+      Console.WriteLine(i);
+      i++;
+    }
+    Console.WriteLine(<strong>i</strong>); // ループの外で i を参照できる
+  }
+}
+    </code></pre>
+    <p>C#には<strong>スコープ</strong>（変数の有効範囲）という概念があります。
+    <strong>中括弧</strong>（if, while, for 文の中括弧も同じ働き）を使うとスコープを明示することができ、
+    <strong>中括弧の内側で宣言した変数の内容を外側で読むことができなくなります。</strong></p>
+    <pre class="code"><code>
+using System;
+class Program
+{
+  static void Main()
+  {
+    <strong>{</strong>
+      int x = 127;
+      Console.WriteLine(x); // 表示される
+    <strong>}</strong>
+    // Console.WriteLine(x); ←エラー
+  }
+}
+    </code></pre>
+    <p><strong>for 文の初期化部で宣言した変数は中括弧の内側で宣言したものとして扱われます。</strong>
+    だからfor文の外側で変数の値を参照できなかったという訳です。</p>
+    </div>
+    <nav><a href="../../index.htm">UTMC 12GW</a> &#187; <a href="../index.htm">C#プログラミング講習会</a> &#187; 7. 続・処理を繰り返させる (<a href="06.htm">&lt; PREV</a> <a href="08.htm">NEXT &gt;</a>)</nav>
+  </body>
+</html>

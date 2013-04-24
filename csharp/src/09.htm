@@ -1,0 +1,262 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="ja">
+  <head>
+    <title>C#プログラミング講習会 - 9</title>
+    <link rel="stylesheet" href="../common.css" type="text/css" />  
+    <!--[if IE]><script src="http://html5shim.googlecode.com/svn/trunk/html5.js"></script><![endif]-->
+    <script src="../jquery-1.7.2.min.js"></script>
+    <script src="../common.js"></script>
+  </head>
+  <body>
+    <nav><a href="../../index.htm">UTMC 12GW</a> &#187; <a href="../index.htm">C#プログラミング講習会</a> &#187; 9. オブジェクトを使う (<a href="08.htm">&lt; PREV</a> <a href="10.htm">NEXT &gt;</a>)</nav>
+    <h1>C#プログラミング講習会</h1>
+    <h2>9. オブジェクトを使う</h2>
+    <p>C#には<strong>クラス</strong>という概念が存在して、クラスの<strong>オブジェクト</strong>を作ることによって様々なことをすることができます。</p>
+    <p>最初に、<strong>string クラスのオブジェクト</strong>、すなわち<strong>文字列</strong>の話をします<span class="fs_80">（stringは厳密には組み込み型で、.NETのSystem.Stringというクラスの別名なのですがこまけぇこたぁいいんだよ）</span>。</p>
+    <h3>string クラス</h3>
+    <p>オブジェクトは様々な機能（<strong>メソッド</strong>と呼ぶ）を持っていて、<strong>.（ドット演算子）</strong>を使うことでメソッドを呼び出すことができます。</p>
+    <pre class="code"><code>
+using System;
+class Program
+{
+  static void Main()
+  {
+    Console.WriteLine("Object"<strong>.ToUpper()</strong>);
+    Console.WriteLine("Object"<strong>.ToLower()</strong>);
+    Console.WriteLine("Object"<strong>.Substring(1, 2)</strong>);
+  }
+}
+    </code></pre>
+    <p><strong>ToUpper</strong>は文字列を全て大文字にするメソッドです。逆に、<strong>ToLower</strong>は文字列を全て小文字にするメソッドです。
+    メソッドを呼び出す時は、必ずメソッド名の後に小括弧を付けます。</p>
+    <p><strong>Substring</strong>は文字列の一部を取り出すメソッドです。第1引数で取り出し始める位置、第2引数で取り出す文字数を指定しています
+    （C#の文字列は先頭を0文字目として数えます。上の場合、1文字目（"b"）を開始位置として2文字分だけ取り出されます）。</p>
+    <p>ToUpperやSubstringの結果もまたstring オブジェクトなので、ドット演算子でメソッドをどんどん繋ぐことができます。</p>
+    <pre class="code"><code>
+using System;
+class Program
+{
+  static void Main()
+  {
+    Console.WriteLine("Object"<strong>.Substring(1, 2).ToUpper()</strong>);
+  }
+}
+    </code></pre>
+    <p>C#には<strong>プロパティ</strong>というものも用意されています。使い方はメソッドとあまり変わりません。
+    <strong>プロパティを使う時は引数の小括弧がいりません</strong>（というか付けるとエラーになります）。</p>
+    <pre class="code"><code>
+using System;
+class Program
+{
+  static void Main()
+  {
+    Console.WriteLine("Object"<strong>.Length</strong>);
+  }
+}
+    </code></pre>
+    <p><strong>Length</strong>は文字列の長さ（つまり文字数）を得るプロパティです。</p>
+    <p>ここまでstring <strong>オブジェクト</strong>が持っているメソッドの呼び出しを行ってきましたが、
+    string <strong>クラス</strong>が持っているメソッドも存在します（クラスが持っているメソッドのことを<strong>静的メソッド</strong>と呼びます）。</p>
+    <pre class="code"><code>
+using System;
+class Program
+{
+  static void Main()
+  {
+    string s = <strong>string.Format</strong>("{0} - {1} = {2}", 33, 4, 33 - 4);
+    Console.WriteLine(s);
+  }
+}
+    </code></pre>
+    <p><strong>Format</strong>はstring クラスが持つメソッドで、指定されたフォーマット通りに文字列内の{<var>数字</var>}を変換します。</p>
+    <p>この他にもstring クラスとそのオブジェクトは多くのメソッドを持っていますが、IntelliSenseやGoogle先生に頼れば情報はいくらでも出てくるので全てを覚える必要はありません。</p>
+    <h3>int, double 構造体</h3>
+    <p>整数・実数はint, double <strong>構造体</strong>（クラスと大体同じ）のオブジェクトです
+    <span class="fs_80">（int, double 型はそれぞれSystem.Int32, System.Double 構造体の別名。クラス／構造体には参照型／値型という違いがある）</span>。</p>
+    <p>これまでに出てきた<strong>int.Parse, double.Parse</strong>はint, double 構造体が持つ静的メソッドだったのです。</p>
+    <p>数値は<strong>ToString</strong>メソッドで文字列に変換することができます。これを利用すると数値の桁数を知ることができます。</p>
+    <pre class="code"><code>
+using System;
+class Program
+{
+  static void Main()
+  {
+    string s = (123 * 456 * 789)<strong>.ToString()</strong>;
+    Console.WriteLine(s);
+    Console.WriteLine(s.Length);
+  }
+}
+    </code></pre>
+    <!-- <p>また便利な静的メソッドとして、<strong>TryParse</strong>というものが存在します。</p> -->
+    <h3>System.Console クラス</h3>
+    <p>これまで散々使ってきた<strong>System.Console</strong>も実はクラスです。WriteLineやReadLineはConsole クラスが持つメソッドです。</p>
+    <p><strong>Console クラスのオブジェクトを作ることはできません</strong>（オブジェクトを作れないクラスのことを静的クラスと呼びます）。</p>
+    <h3>System.Random クラス</h3>
+    <p><strong>System.Random</strong> クラスは、乱数（ランダムな数）を得たいときに使われます。</p>
+    <pre class="code"><code>
+using System;
+class Program
+{
+  static void Main()
+  {
+    <strong>Random rand = new Random();</strong>
+    for (int i = 0; i &lt; 10; i++)
+    {
+      Console.WriteLine(<strong>rand.Next(100)</strong>);
+    }
+  }
+}
+    </code></pre>
+    <p>オブジェクトを作る時は、一般的に<strong>new 演算子</strong>を使います
+    <span class="fs_80">（string, int, doubleのオブジェクトをnewで作ることもできますがあまり機会はないと思われます）</span>。
+    上の場合、Random 型の変数 <var>rand</var> にRandom オブジェクトを格納しています。</p>
+    <p>Random オブジェクトの<strong>Next</strong> メソッドを実行することで、0以上引数未満の整数乱数を次々に得ることができます。</p>
+    <h3>擬似乱数について</h3>
+    <p>
+      実は、計算機で厳密な乱数列を生成することは原理的にできません（数学的に証明されています）。
+      System.Random クラスで得られる乱数は完全にランダムというわけではなく、ランダムに見える数列を計算で作り出しているだけです。
+      これを<strong>擬似乱数</strong>と呼びます。
+    </p>
+    <p>
+      擬似乱数は漸化式（のようなもの）を使って生成されているので、乱数を生成する時には漸化式の初項（のようなもの）が必要です。
+      これを<strong>シード値</strong>と呼びます。
+    </p>
+    <p>
+      Random オブジェクトを作るときにシード値を設定することができます。
+    </p>
+    <pre class="code"><code>
+using System;
+class Program
+{
+  static void Main()
+  {
+    Random rand = new Random(<strong>1234</strong>);
+    for (int i = 0; i &lt; 10; i++)
+    {
+      Console.WriteLine(rand.Next(100));
+    }
+  }
+}
+    </code></pre>
+    <p>
+      <strong>シード値を設定しない場合、現在時刻をもとにシード値が決定されます。</strong>
+      シード値が同じならば、以降生成される乱数は同じものになります。
+    </p>
+    <h3>演習：数当てゲームを作る</h3>
+    <p>
+      System.Random クラスを使って数当てゲームを作ってみましょう。
+      ルールは以下の通り。
+    </p>
+    <ol>
+      <li>乱数を使ってある整数 <var>n</var> を決める</li>
+      <li>プレイヤーが数値 <var>x</var> を入力し、それが <var>n</var> と等しければゲームクリア</li>
+      <li><var>x</var> が <var>n</var> より大きければ「数は <var>x</var> より大きいです」と表示し、
+      小さければ「数は <var>x</var> より小さいです」と表示</li>
+      <li>プレイヤーがクリアするまで2.-3.を繰り返す</li>
+      <li>最後にゲームクリアまでにかかった入力の回数を表示する</li>
+    </ol>
+    <p>ゲームの出力と入力の例は以下のようになります。</p>
+    <pre class="sample"><samp>
+予想を入力してください
+50
+数は50より小さいです
+予想を入力してください
+25
+数は25より小さいです
+予想を入力してください
+12
+数は12より大きいです
+予想を入力してください
+17
+数は17より大きいです
+予想を入力してください
+21
+数は21より大きいです
+予想を入力してください
+23
+クリア！（入力回数：6）
+    </samp></pre>
+    <p>何か独自の要素を加えても構いません。</p>
+<!--
+    <h3>System.Text.StringBuilder クラス</h3>
+    <pre class="code"><code>
+using System;
+class Program
+{
+  static void Main()
+  {
+    var sb = new System.Text.StringBuilder();
+    sb.Append("Hell");
+    Console.WriteLine(sb);
+    sb.Append("o, ");
+    Console.WriteLine(sb);
+    sb.Append("World!");
+    Console.WriteLine(sb);
+    sb.Clear();
+    sb.Append("Good-bye!");
+    Console.WriteLine(sb);
+  }
+}
+    </code></pre>
+    <pre class="code"><code>
+using System;
+class Program
+{
+  static void Main()
+  {
+    var a = new System.Text.StringBuilder();
+    var b = a;
+    a.Append("Hello, world!");
+    Console.WriteLine(b);
+  }
+}
+    </code></pre>
+    <h3>System.DateTime 構造体</h3>
+    <pre class="code"><code>
+using System;
+class Program
+{
+  static void Main()
+  {
+    DateTime date = new DateTime(2012, 8, 10, 10, 00, 00);
+    Console.WriteLine(date);
+    Console.WriteLine(date.AddHours(1));
+    Console.WriteLine(date.AddHours(-12));
+    Console.WriteLine((date - DateTime.Now).Days);
+  }
+}
+    </code></pre>
+-->
+    <h3><a href="javascript:showKobore();">こぼれ話</a></h3>
+    <div class="kobore">
+    <p>これで謎のままだった class Program と static の意味が分かるようになりました。
+    Main メソッドは、<strong>Program クラスの静的 (static) メソッド</strong>なのです。</p>
+    <p><code>class Program { ... }</code> の中に書かれたstatic付きのメソッドはProgramの静的メソッドです。
+    前回、RepeatHelloというメソッドを定義して <code>RepeatHello();</code> と書いて呼び出しました。
+    実はこれは <code>Program.RepeatHello();</code> の省略形です（同じクラスの中から呼ぶときはクラス名を省略できます）。</p>
+
+    <pre class="code"><code>
+using System;
+class Program
+{
+  static void RepeatHello()
+  {
+    for (int i = 0; i &lt; 5; i++)
+    {
+      Console.WriteLine("Hello!");
+    }
+  }
+
+  static void Main()
+  {
+    <strong>Program.RepeatHello();</strong>
+  }
+}
+    </code></pre>
+    
+    <p>また、これまでずっとclass Programと書いてきましたがこのクラス名はProgramでなくても構いません。</p>
+    </div>
+    <nav><a href="../../index.htm">UTMC 12GW</a> &#187; <a href="../index.htm">C#プログラミング講習会</a> &#187; 9. オブジェクトを使う (<a href="08.htm">&lt; PREV</a> <a href="10.htm">NEXT &gt;</a>)</nav>
+  </body>
+</html>

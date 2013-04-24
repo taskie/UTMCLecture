@@ -1,0 +1,74 @@
+<?xml version='1.0' encoding='UTF-8'?><!DOCTYPE html><html xmlns='http://www.w3.org/1999/xhtml'><head><title>6. 処理を繰り返させる - C#プログラミング講習会</title><link href='../common/common.css' rel='stylesheet' type='text/css'/><script src='../common/jquery-1.7.2.min.js' type='text/javascript'></script><script src='../common/common.js' type='text/javascript'></script></head><body><nav><a href='../index.htm'>C#プログラミング講習会</a> » (<a href='../5/index.htm'>&lt; prev</a> <a href='../7/index.htm'>next &gt;</a>) 6. 処理を繰り返させる</nav><h1 id='cプログラミング講習会'>C#プログラミング講習会</h1><h2 id='処理を繰り返させる'>6. 処理を繰り返させる</h2><h3 id='while-文'>while 文</h3><p>コンピュータは基本的に「単純作業を繰り返させる」「大量のデータを処理させる」為の存在です。 だから、繰り返し構文は<span class='fs_80'>（手続き型）</span>プログラミングにおいて最も重要な構文でしょう。</p><p><strong>while 文</strong>は、<strong>条件式が満たされている場合中括弧の中の処理を繰り返します</strong>。条件式の判定は<strong>ループに入る時</strong>及び<strong>中括弧内の処理が終わってループの先頭に戻る時</strong>に行われます。</p><pre class='code'><code>using System;
+class Program
+{
+  static void Main()
+  {
+    int n = int.Parse(Console.ReadLine());
+    <strong>while (n &lt; 10)</strong>
+    <strong>{</strong>
+      Console.WriteLine(n);
+      n = n + 1;
+    <strong>}</strong>
+  }
+}
+</code></pre><p><strong>最初から条件が満たされていない場合は1度もその処理を行いません。</strong>また、<strong>ずっと条件が満たされている場合は永久にループから抜けられなくなります</strong>（コンソールの場合フリーズすることはないので安心してください）。</p><h3 id='do-while-文'>do while 文</h3><p>while 文の亜種として<strong>do while 文</strong>というものがあります。</p><p>do while 文の場合<strong>少なくとも1回は中括弧の中身が実行され</strong>、それから条件式が判定されます。</p><pre class='code'><code>using System;
+class Program
+{
+  static void Main()
+  {
+    int n;
+    <strong>do</strong>
+    <strong>{</strong>
+      n = int.Parse(Console.ReadLine());
+    <strong>}</strong>
+    <strong>while (n &gt; 0);</strong>
+  }
+}
+</code></pre><h3 id='bool-型'>bool 型</h3><p>intは整数、doubleは実数、stringは文字列を扱う型でしたが、<strong>bool</strong>は<strong>論理値（真／偽）</strong>を扱う型です。 boolには<strong>true, false</strong>のいずれかが格納されます（文字列の&quot;true&quot;, &quot;false&quot;とは異なります）。 if 文やwhile 文は条件式がtrueである時に実行されます。</p><pre class='code'><code>using System;
+class Program
+{
+  static void Main()
+  {
+    <strong>bool loopFlag = true;</strong>
+    while (<strong>loopFlag</strong>)
+    {
+      Console.WriteLine("ループから抜けますか？ (y/n)");
+      if (Console.ReadLine() == "y") {
+        <strong>loopFlag = false;</strong>
+      }
+    }
+  }
+}
+</code></pre><h3 id='複合代入演算子'>複合代入演算子</h3><p><code>n = n + 1</code>のような処理は頻繁に出現するのでより短く書く方法が用意されています（<code>+=</code>のような演算子を<strong>複合代入演算子</strong>と呼びます）。</p><pre class='code'><code>using System;
+class Program
+{
+  static void Main()
+  {
+    int x = 0;
+    <strong>x += 4;</strong>  // x = x + 4
+    Console.WriteLine(x);
+    <strong>x -= 2;</strong>  // x = x - 2
+    Console.WriteLine(x);
+    <strong>x *= 3;</strong>  // x = x * 3
+    Console.WriteLine(x);
+    <strong>x /= 2;</strong>  // x = x / 2
+    Console.WriteLine(x);
+  }
+}
+</code></pre><h3 id='演習コラッツ数列表示プログラム'>演習：コラッツ数列表示プログラム</h3><p>ここまでの知識でコラッツの問題（<a href='http://ja.wikipedia.org/wiki/%E3%82%B3%E3%83%A9%E3%83%83%E3%83%84%E3%81%AE%E5%95%8F%E9%A1%8C'>Wikipedia</a>）の数列を表示するプログラムを書いてみましょう（できるだけ自力でやりましょう）。</p><blockquote>
+問題の概要は、「任意の0でない自然数<var>n</var>をとり、
+<ul><li>
+<var>n</var>が偶数の場合、<var>n</var>を 2 で割る
+</li><li>
+<var>n</var>が奇数の場合、<var>n</var>に 3 をかけて 1 を足す
+</li>
+</ul>
+という操作を繰り返すと、有限回で 1 に到達する」という主張である（1 に到達すると、1→4→2→1 を繰り返す）。
+</blockquote><pre class='sample'><samp>3
+10
+5
+16
+8
+4
+2
+1</samp></pre><p>と表示するようなプログラムを作りましょう。</p><nav><a href='../index.htm'>C#プログラミング講習会</a> » (<a href='../5/index.htm'>&lt; prev</a> <a href='../7/index.htm'>next &gt;</a>) 6. 処理を繰り返させる</nav></body></html>

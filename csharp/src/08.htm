@@ -1,0 +1,112 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="ja">
+  <head>
+    <title>C#プログラミング講習会 - 8</title>
+    <link rel="stylesheet" href="../common.css" type="text/css" />  
+    <!--[if IE]><script src="http://html5shim.googlecode.com/svn/trunk/html5.js"></script><![endif]-->
+    <script src="../jquery-1.7.2.min.js"></script>
+    <script src="../common.js"></script>
+  </head>
+  <body>
+    <nav><a href="../../index.htm">UTMC 12GW</a> &#187; <a href="../index.htm">C#プログラミング講習会</a> &#187; 8. メソッドを定義する (<a href="07.htm">&lt; PREV</a> <a href="09.htm">NEXT &gt;</a>)</nav>
+    <h1>C#プログラミング講習会</h1>
+    <h2>8. メソッドを定義する</h2>
+    
+    <h3>メソッドを定義して呼び出す</h3>
+    <p><strong>メソッド</strong><span class="fs_80">（C言語やC++等では関数と呼ばれる）</span>というものを定義することにより、処理をまとまった単位に分割することができます。以下のように書くことでメソッドを定義でき、Mainから呼び出すことができるようになります（実はMainもメソッドの一つです。プログラムは必ずMain メソッドから開始します）。</p>
+    <pre class="code"><code>
+using System;
+class Program
+{
+  <strong>static void RepeatHello()</strong>
+  {
+    for (int i = 0; i &lt; 5; i++)
+    {
+      Console.WriteLine("Hello!");
+    }
+  }
+
+  static void Main()
+  {
+    <strong>RepeatHello();</strong>
+  }
+}
+    </code></pre>
+    <h3>引数のあるメソッドを定義して呼び出す</h3>
+    <p>メソッドには小括弧を使って情報を渡すことができます。これを<strong>引数（ひきすう）</strong>と呼びます。</p>
+    <pre class="code"><code>
+using System;
+class Program
+{
+  static void RepeatHello(<strong>string s, int n</strong>)
+  {
+    for (int i = 0; i &lt; n; i++)
+    {
+      Console.WriteLine("Hello, {0}!", s);
+    }
+  }
+
+  static void Main()
+  {
+    RepeatHello(<strong>"world", 5</strong>);
+  }
+}
+    </code></pre>
+    <p>上の場合、RepeatHello メソッドの第1引数として表示する文字列、第2引数として繰り返す回数を指定します。</p> 
+    <h3>戻り値のあるメソッドを定義して呼び出す</h3>
+    <p><strong>return</strong>を使うことでメソッドの実行結果を指定できます。
+    これを<strong>戻り値</strong>（返り値）と呼びます。
+    メソッド名の前で戻り値の型を指定する必要があります。</p>
+    <p>以下は引数として与えられた整数 <var>n</var> の2乗の値を返すメソッドです。</p>
+    <pre class="code"><code>
+using System;
+class Program
+{
+  static <strong>int</strong> Pow2(int n)
+  {
+    <strong>return</strong> n * n;
+  }
+  
+  static void Main()
+  {
+    Console.WriteLine(<strong>Pow2(2)</strong>);
+    Console.WriteLine(<strong>Pow2(3)</strong> + <strong>Pow2(4)</strong>);
+    Console.WriteLine(<strong>Pow2(Pow2(2))</strong>);
+  }
+}
+    </code></pre>
+    <p><strong>void</strong>は戻り値がないメソッドを示すキーワードです。戻り値がない場合でも <code>return;</code> と書くことでメソッド内の処理から抜けることができます。</p>
+<!--
+    <h3>数学関連のメソッド</h3>
+    <p>数学関連のメソッドや定数が<strong>System.Math</strong>にあらかじめ定義されておりそれを利用することができます。</p>
+    <p>ゲームプログラミングでよく使うメソッドは以下の通りです。</p>
+    <pre class="code"><code>
+using System;
+class Program
+{
+  static void Main()
+  {
+    Console.WriteLine(<strong>Math.Sqrt(2)</strong>);
+    Console.WriteLine(<strong>Math.Pow(2, 0.5)</strong>);
+
+    double angle = <strong>Math.PI</strong> / 3;
+    double x = <strong>Math.Cos</strong>(angle);
+    double y = <strong>Math.Sin</strong>(angle);
+    Console.WriteLine("x: {0}, y: {1}" , x, y);
+    Console.WriteLine("atan(y/x): ", <strong>Math.Atan2</strong>(y, x));
+  }
+}
+    </code></pre>
+    <p><strong>Sqrt</strong> メソッドはsquare root、即ち正の平方根を求めます。引数が負の場合<strong>NaN</strong>（Not a Number：非数）が返ってきます。</p>
+    <p><strong>Pow</strong> メソッドは累乗を行います。第1引数に底、第2引数に指数を指定します。</p>
+    <p><strong>PI</strong>は円周率が入っている定数です。</p>
+    <p><strong>Sin</strong>, <strong>Cos</strong> メソッドはその名の通り正弦と余弦を求めます（引数はラジアンで指定します）。</p>
+    <p><strong>Atan2</strong>は ( <var>第1引数</var> / <var>第2引数</var> ) の逆正接を求めます。</p>
+    <p>この他にも多くのメソッドが用意されていて<a href="http://msdn.microsoft.com/ja-jp/library/4zfefwz9.aspx">Math クラス</a> (MSDN) のページで情報を見ることができます。</p>
+-->
+    <h3>演習：累乗プログラム</h3>
+    <p>整数 <code>a</code>, 自然数 <code>n</code> を引数に取り、<code>a</code> の <code>n</code> 乗を求めるメソッド <code>pow</code> を定義し、Main メソッドからそれを利用するプログラムを作りましょう。</p>
+    <nav><a href="../../index.htm">UTMC 12GW</a> &#187; <a href="../index.htm">C#プログラミング講習会</a> &#187; 8. メソッドを定義する (<a href="07.htm">&lt; PREV</a> <a href="09.htm">NEXT &gt;</a>)</nav>
+  </body>
+</html>

@@ -1,0 +1,94 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="ja">
+  <head>
+    <title>C#プログラミング講習会 - 3</title>
+    <link rel="stylesheet" href="../common.css" type="text/css" />  
+    <!--[if IE]><script src="http://html5shim.googlecode.com/svn/trunk/html5.js"></script><![endif]-->
+    <script src="../jquery-1.7.2.min.js"></script>
+    <script src="../common.js"></script>
+  </head>
+  <body>
+    <nav><a href="../../index.htm">UTMC 12GW</a> &#187; <a href="../index.htm">C#プログラミング講習会</a> &#187; 3. コンソールへの入力を受け取る (<a href="02.htm">&lt; PREV</a> <a href="04.htm">NEXT &gt;</a>)</nav>
+    <h1>C#プログラミング講習会</h1>
+    <h2>3. コンソールへの入力を受け取る</h2>
+    <h3>文字列型変数に入力結果を代入する</h3>
+    <p>まずは下のコードを入力してください。</p>
+    <pre class="code"><code>
+class Program
+{
+  static void Main()
+  {
+    string s = <strong>System.Console.ReadLine</strong>();
+    System.Console.WriteLine("Hello, " + s + "!");
+  }
+}
+    </code></pre>
+    <p>実行すると、コンソール上のカーソルが点滅した状態（入力待ち状態）になるはずです。
+    そこで、自分の名前を入力してEnterを押してみましょう。</p>
+    <p><code>System.Console.ReadLine()</code>はコンソールからの入力を受け取る部分で、
+    その入力が文字列型変数 <var>s</var> に代入されています。</p>
+    <h3>整数・実数型変数に入力結果を代入する</h3>
+    <p><code>System.Console.ReadLine()</code>の結果は文字列なので、
+    int型・double型の変数に直接入れることはできません。
+    文字列をintやdoubleに変換してやる必要があります。</p>
+    <pre class="code"><code>
+class Program
+{
+  static void Main()
+  {
+    int x = <strong>int.Parse</strong>(System.Console.ReadLine());
+    System.Console.WriteLine(x * x);
+
+    double y = <strong>double.Parse</strong>(System.Console.ReadLine());
+    System.Console.WriteLine(1 / y);
+  }
+}
+    </code></pre>
+    <p>重要なのは <strong><code>int.Parse</code></strong> と <strong><code>double.Parse</code></strong> で、
+    この括弧の中に文字列を入れると整数や実数に変換してくれます。</p>
+    <h3>System.Console.WriteLine, System.Console.ReadLineって長い</h3>
+    <p>ところで、一々<code>System.Console.WriteLine</code>という長ったらしい名前を打ち込むのは面倒です。
+    <strong>using ディレクティブ</strong>を使うことでこの負担を軽減することができます。</p>
+    <pre class="code"><code>
+<strong>using System;</strong>
+class Program
+{
+  static void Main()
+  {
+    double x = double.Parse(<strong>Console.ReadLine</strong>());
+    <strong>Console.WriteLine</strong>(1 / x);
+  }
+}
+    </code></pre>
+    <p>先頭に<code>using System;</code>を加えると、以降はSystemを省略できるようになります。</p>
+<!--    <p>勘の良い人は「<code>using System.Console;</code>とすればSystem.Consoleを省略できるようになって
+    WriteLine, ReadLine だけでよくなるのではないか」と思うかもしれませんが、
+    残念ながらそれはできません。<code>using</code>で省略できるものには何か条件がありそうですね<span class="fs_80">（usingでは名前空間というものを指定して省略することができます。Systemは名前空間ですがConsoleはクラスという別物なので省略できません）</span>。</p>
+-->
+    <h3>System.Console.WriteLineの便利な機能</h3>
+    <p>System.Console.WriteLineには<strong>フォーマット出力</strong>という機能があります。</p>
+    <pre class="code"><code>
+using System;
+class Program
+{
+  static void Main()
+  {
+    int m = int.Parse(Console.ReadLine());
+    int n = int.Parse(Console.ReadLine());
+    <strong>Console.WriteLine("{0}+{1}={2}, {0}*{1}={3}", m, n, m + n, m * n);</strong>
+  }
+}
+    </code></pre>
+    <p>表示文字列に<strong>{<var>数字</var>}</strong>と書くことで、後ろの対応する値をそこに埋め込むことができます（上の例の場合、{0}にm、{1}にn、{2}にm+n、{3}にm*nの値が埋め込まれます）。</p>
+    <h3>演習：西暦→和暦変換プログラムを作る</h3>
+    <p>
+      Console.ReadLineとint.Parseを利用して、西暦を入力したら平成何年かを表示してくれるプログラムを作りましょう（元年は1年とみなして良いです）。
+    </p>
+    <p>
+      西暦から1988を引くと平成になります
+      （ちなみに1867・1911・1925を引くとそれぞれ明治・大正・昭和になります。例えば今年は明治・大正・昭和ではそれぞれ何年相当なのかを表示するプログラムを作っても面白いかも）。
+    </p>
+    <nav><a href="../../index.htm">UTMC 12GW</a> &#187; <a href="../index.htm">C#プログラミング講習会</a> &#187; 3. コンソールへの入力を受け取る (<a href="02.htm">&lt; PREV</a> <a href="04.htm">NEXT &gt;</a>)</nav>
+  </body>
+</html>
